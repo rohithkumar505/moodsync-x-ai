@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/models.dart';
-import '../services/api_client.dart';
 import '../services/player_service.dart';
 import '../theme/app_theme.dart';
 

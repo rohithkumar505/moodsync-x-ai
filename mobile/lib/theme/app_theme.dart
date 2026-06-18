@@ -42,7 +42,7 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: Colors.white.withValues(alpha: 0.06),
         elevation: 0,
         shape: RoundedRectangleBorder(

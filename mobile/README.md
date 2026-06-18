@@ -1,40 +1,42 @@
-# MoodSync Flutter app
+# MoodSync Flutter App
 
-Native Android/iOS client for the same MoodSync API as the web app.
+Native **Android & iOS** app for [MoodSync X AI](https://moodsync-x-ai.vercel.app).
 
-## First-time setup
+## Features
+
+- Login / Register (production API)
+- **Face mood scan** (camera → AI → music playlist)
+- Manual mood chips
+- Dashboard + recommendations
+- Music search & new releases
+- Mini player (background audio)
+- Drawer: History, Journal, Achievements, Playlists
+- Profile + sign out
+
+## Run on device
 
 ```bash
 cd mobile
-flutter create . --project-name moodsync_mobile --org com.moodsync
 flutter pub get
 dart run flutter_launcher_icons
-```
-
-Edit `lib/config/api_config.dart` → set `productionApiUrl` to your **Render** backend URL.
-
-## Run
-
-```bash
-# Android emulator → backend on host machine
-flutter run --dart-define=API_URL=http://10.0.2.2:5001
-
-# Production API
 flutter run
 ```
 
-## Build
+API is preconfigured: `https://moodsync-api.onrender.com`
+
+**Demo login:** `demo@moodsync.ai` / `Demo1234`
+
+## Build release
 
 ```bash
-flutter build apk --release
-flutter build appbundle --release
+flutter build apk --release          # Android APK
+flutter build appbundle --release  # Play Store
+flutter build ios --release          # iOS (Mac + Xcode)
 ```
 
-## Features (matches web mobile)
+## Local backend
 
-- Login / Register
-- Mood Sync → playlist + player
-- Dashboard + recommendations
-- Music search & new releases
-- Profile + sign out
-- Mini player bar
+```bash
+flutter run --dart-define=API_URL=http://10.0.2.2:5001   # Android emulator
+flutter run --dart-define=API_URL=http://127.0.0.1:5001  # iOS simulator
+```

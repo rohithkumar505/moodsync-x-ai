@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/api_client.dart';
 import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 
@@ -12,12 +13,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  final _email = TextEditingController(text: 'demo@moodsync.ai');
+  final _password = TextEditingController(text: 'Demo1234');
+  final _name = TextEditingController();
   bool _loading = false;
   bool _register = false;
-  final _name = TextEditingController();
   String _language = 'Hindi';
+  bool? _apiOnline;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkApi());
+  }
+
+  Future<void> _checkApi() async {
+    final ok = await context.read<ApiClient>().healthCheck();
+    if (mounted) setState(() => _apiOnline = ok);
+  }
 
   @override
   void dispose() {
@@ -63,6 +76,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
               ),
+              if (_apiOnline != null) ...[
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.circle, size: 8, color: _apiOnline! ? Colors.greenAccent : Colors.redAccent),
+                    const SizedBox(width: 6),
+                    Text(_apiOnline! ? 'API online' : 'API offline', style: const TextStyle(fontSize: 12)),
+                  ],
+                ),
+              ],
               const SizedBox(height: 40),
               if (_register) ...[
                 TextField(controller: _name, decoration: const InputDecoration(labelText: 'Name')),

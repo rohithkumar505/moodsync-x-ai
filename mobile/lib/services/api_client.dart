@@ -74,5 +74,33 @@ class ApiClient {
     return url;
   }
 
+  Future<Map<String, dynamic>> analyzeFace(List<int> imageBytes, String language) async {
+    final form = FormData.fromMap({
+      'file': MultipartFile.fromBytes(imageBytes, filename: 'face.jpg'),
+      'language': language,
+    });
+    final r = await _dio.post<Map<String, dynamic>>('/api/analyze/face', data: form);
+    return r.data ?? {};
+  }
+
+  Future<bool> healthCheck() async {
+    try {
+      final r = await _dio.get<Map<String, dynamic>>('/api/health');
+      return r.data?['status'] == 'ok' || r.data?['status'] == 'degraded';
+    } catch (_) {
+      return false;
+    }
+  }
+
+  String? errorMessage(Object e) {
+    if (e is DioException) {
+      final data = e.response?.data;
+      if (data is Map && data['error'] is String) return data['error'] as String;
+      if (e.type == DioExceptionType.connectionTimeout) return 'Connection timed out';
+      if (e.type == DioExceptionType.connectionError) return 'Cannot reach server';
+    }
+    return null;
+  }
+
   DioException? asDio(Object e) => e is DioException ? e : null;
 }

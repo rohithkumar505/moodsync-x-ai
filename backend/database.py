@@ -23,7 +23,7 @@ def build_database_url() -> str:
     database = os.getenv("POSTGRES_DB") or os.getenv("PGDATABASE") or "moodsync"
 
     safe_password = quote_plus(password)
-    return f"postgresql+psycopg2://{user}:{safe_password}@{host}:{port}/{database}"
+    return f"postgresql+psycopg://{user}:{safe_password}@{host}:{port}/{database}"
 
 
 def is_postgresql(url: str) -> bool:

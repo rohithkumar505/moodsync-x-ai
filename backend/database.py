@@ -6,8 +6,8 @@ def normalize_database_url(url: str) -> str:
     cleaned = url.strip()
     if cleaned.startswith("postgres://"):
         cleaned = cleaned.replace("postgres://", "postgresql://", 1)
-    if cleaned.startswith("postgresql://") and "+psycopg2" not in cleaned:
-        cleaned = cleaned.replace("postgresql://", "postgresql+psycopg2://", 1)
+    if cleaned.startswith("postgresql://") and "+psycopg" not in cleaned:
+        cleaned = cleaned.replace("postgresql://", "postgresql+psycopg://", 1)
     return cleaned
 
 

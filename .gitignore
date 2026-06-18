@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+instance/
+*.db
+backend/uploads/moods/*
+!backend/uploads/moods/.gitkeep
+.env
+node_modules/
+dist/
+.DS_Store

@@ -1,0 +1,12 @@
+{
+  "name": "MoodSync X AI",
+  "short_name": "MoodSync",
+  "description": "Your Mood, Your Music",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0c29",
+  "theme_color": "#302b63",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

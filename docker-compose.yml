@@ -1,0 +1,46 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5001:5001"
+    environment:
+      - DATABASE_URL=postgresql://moodsync:moodsync@db:5432/moodsync
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-change-me}
+      - SECRET_KEY=${SECRET_KEY:-change-me}
+      - PORT=5001
+      - FLASK_DEBUG=0
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - uploads:/app/uploads
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: moodsync
+      POSTGRES_PASSWORD: moodsync
+      POSTGRES_DB: moodsync
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moodsync -d moodsync"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  uploads:
